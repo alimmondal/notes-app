@@ -10,7 +10,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../App';
 import { showMessage } from 'react-native-flash-message';
 
-const noteColorOptions = ['red', 'blue', 'green'];
+const noteColorOptions = ['orange', 'blue', 'green'];
 
 const Create = ({ navigation, route, user }) => {
   // console.log('user Uid', user);

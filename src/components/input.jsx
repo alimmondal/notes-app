@@ -8,6 +8,7 @@ const Input = ({
   onChangeText,
   autoCapitalize,
   multiline,
+  value,
 }) => {
   return (
     <TextInput
@@ -17,6 +18,7 @@ const Input = ({
       onChangeText={onChangeText}
       autoCapitalize={autoCapitalize}
       multiline={multiline}
+      value={value}
     />
   );
 };

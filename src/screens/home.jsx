@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -10,14 +11,25 @@ import React, { useEffect } from 'react';
 import Text from '../components/text/text';
 import Button from '../components/button';
 import { auth, db } from '../../App';
-import { getAuth, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { AntDesign } from '@expo/vector-icons';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
+// import { AntDesign } from '@expo/vector-icons';
 
-const Home = ({ user, route, navigation }) => {
+const Home = ({ user, navigation }) => {
   const [notes, setNotes] = React.useState([]);
-  // console.log('home user--->', user);
-
+  const [loading, setLoading] = React.useState(true);
+  // console.log('home notes--->', notes);
+  const onPressCreate = () => {
+    navigation.navigate('Create');
+  };
   useEffect(() => {
     //create the query
     const q = query(collection(db, 'notes'), where('uid', '==', user.uid));
@@ -25,9 +37,10 @@ const Home = ({ user, route, navigation }) => {
     const notesListenerSubscription = onSnapshot(q, (querySnapshot) => {
       const list = [];
       querySnapshot.forEach((doc) => {
-        list.push(doc.data());
+        list.push({ ...doc.data(), id: doc.id });
       });
       setNotes(list);
+      setLoading(false);
     });
 
     return notesListenerSubscription;
@@ -46,9 +59,22 @@ const Home = ({ user, route, navigation }) => {
           padding: 15,
         }}
         onPress={() => {
-          navigation.navigate('Edit', { item });
+          navigation.navigate('Update', { item });
         }}
       >
+        <Pressable
+          style={{
+            position: 'absolute',
+            alignSelf: 'flex-end',
+            padding: 10,
+            zIndex: 4,
+          }}
+          onPress={() => {
+            deleteDoc(doc(db, 'notes', item.id));
+          }}
+        >
+          <AntDesign name="delete" size={24} color="red" />
+        </Pressable>
         <View>
           <Text style={{ color: 'white', fontSize: 24 }}>{title}</Text>
           <Text style={{ color: 'white', fontSize: 18, marginTop: 16 }}>
@@ -64,40 +90,42 @@ const Home = ({ user, route, navigation }) => {
     console.log('first');
   };
 
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      >
+        <ActivityIndicator color="blue" size="large" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 30,
-          }}
-        >
-          <Text>My Notes</Text>
-          <Pressable
-            onPress={() => {
-              navigation.navigate('Create');
-            }}
-          >
-            <AntDesign name="pluscircleo" size={24} color="black" />
-          </Pressable>
-        </View>
-        <FlatList
-          data={notes}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.title}
-          contentContainerStyle={{ padding: 20 }}
-        />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: 30,
+        }}
+      >
+        <Text>My Notes</Text>
+        <Pressable onPress={onPressCreate}>
+          <AntDesign name="pluscircleo" size={24} color="black" />
+        </Pressable>
+      </View>
+      <FlatList
+        data={notes}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.title}
+        contentContainerStyle={{ padding: 20 }}
+      />
 
-        <View style={styles.logoutBtn}>
-          <Button
-            title="logout"
-            customStyles={{ alignSelf: 'center', marginBottom: 60 }}
-            onPress={logout}
-          />
-        </View>
-      </ScrollView>
+      <Button
+        title="logout"
+        customStyles={{ alignSelf: 'center', marginVertical: 12 }}
+        onPress={logout}
+      />
     </SafeAreaView>
   );
 };
@@ -105,6 +133,10 @@ const Home = ({ user, route, navigation }) => {
 export default Home;
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: 'pink',
+    // marginHorizontal: 20,
+  },
   logoutBtn: {
     flex: 1,
     justifyContent: 'flex-end',

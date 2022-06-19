@@ -6,32 +6,34 @@ import RadioInput from '../components/RadioInput';
 import Button from '../components/button';
 import { AntDesign } from '@expo/vector-icons';
 import Text from '../components/text/text';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../App';
 import { showMessage } from 'react-native-flash-message';
 
-const noteColorOptions = ['red', 'blue', 'green'];
+const noteColorOptions = ['black', 'blue', 'green', 'orange'];
 
-const Edit = ({ navigation, route, user }) => {
-  // console.log('user Uid', user);
+const Update = ({ navigation, route, user }) => {
   const noteItem = route.params.item;
+  // console.log('user noteItem', noteItem);
+
   const [title, setTitle] = useState(noteItem.title);
   const [description, setDescription] = useState(noteItem.description);
   const [noteColor, setNoteColor] = useState(noteItem.color);
   const [loading, setLoading] = useState(false);
 
   const onPressUpdate = async () => {
+    const noteRef = doc(db, 'notes', noteItem.id);
+
     setLoading(true);
     try {
-      await addDoc(collection(db, 'notes'), {
+      await updateDoc(noteRef, {
         title: title,
         description: description,
         color: noteColor,
-        uid: user.uid,
       });
       setLoading(false);
       showMessage({
-        message: 'Note has been created successfully',
+        message: 'Note is updated successfully',
         type: 'success',
       });
       navigation.goBack();
@@ -50,8 +52,8 @@ const Edit = ({ navigation, route, user }) => {
           alignItems: 'center',
         }}
       >
-        <AntDesign name="edit" size={100} color="gray" />
-        <Text>Update</Text>
+        <AntDesign name="edit" size={100} color="lightgray" />
+        <Text>update/ edit</Text>
       </View>
       <View>
         <Input
@@ -97,6 +99,6 @@ const Edit = ({ navigation, route, user }) => {
   );
 };
 
-export default Edit;
+export default Update;
 
 const styles = StyleSheet.create({});

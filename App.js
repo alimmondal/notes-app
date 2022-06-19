@@ -9,11 +9,12 @@ import FlashMessage from 'react-native-flash-message';
 import Home from './src/screens/home';
 import Signin from './src/screens/signin';
 import SignUp from './src/screens/signup';
-import Edit from './src/screens/edit';
+import Edit from './src/screens/update';
 import Create from './src/screens/create';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import Update from './src/screens/update';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAX7YmHa-h3WY4XRoHmzzBZhpyodMSJWjw',
@@ -42,10 +43,6 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  //   signOut(auth);
-  // });
 
   useEffect(() => {
     const authSubscription = onAuthStateChanged(auth, (user) => {
@@ -91,7 +88,7 @@ export default function App() {
               <Stack.Screen name="Create">
                 {(props) => <Create {...props} user={user} />}
               </Stack.Screen>
-              <Stack.Screen name="Edit" component={Edit} />
+              <Stack.Screen name="Update" component={Update} />
             </>
           ) : (
             <>

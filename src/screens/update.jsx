@@ -9,6 +9,7 @@ import Text from '../components/text/text';
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../App';
 import { showMessage } from 'react-native-flash-message';
+import { FontAwesome } from '@expo/vector-icons';
 
 const noteColorOptions = ['black', 'blue', 'green', 'orange'];
 
@@ -52,7 +53,7 @@ const Update = ({ navigation, route, user }) => {
           alignItems: 'center',
         }}
       >
-        <AntDesign name="edit" size={100} color="lightgray" />
+        <FontAwesome name="edit" size={80} color="gray" />
         <Text>update/ edit</Text>
       </View>
       <View>

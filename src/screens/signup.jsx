@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, View, ActivityIndicator } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import React, { useState } from 'react';
 import Text from '../components/text/text';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,15 +12,7 @@ import { auth, db } from '../../App';
 import Button from '../components/button';
 import Input from '../components/input';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import {
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  query,
-  onSnapshot,
-  where,
-} from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { showMessage } from 'react-native-flash-message';
 import RadioInput from '../components/RadioInput';
 
@@ -60,8 +58,17 @@ const SignUp = ({ navigation }) => {
     }
   };
 
+  // const signin = () => {
+  //   navigation.navigate('Signin');
+  // };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Image
+        source={require('../../assets/img/signUp.png')}
+        style={{ alignSelf: 'center', height: 200, width: '100%' }}
+        resizeMode="contain"
+      />
       <View style={{ paddingHorizontal: 16, paddingVertical: 25 }}>
         <Input
           placeholder="Email address"

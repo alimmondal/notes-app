@@ -3,8 +3,10 @@ import { colors } from '../../themes/colors';
 
 const BASE = {
   fontFamily: typography.primary,
-  fontSize: 17,
+  fontSize: 18,
   color: colors.black,
+  letterSpacing: 1,
+  lineHeight: 24,
 };
 
 const BASE_BOLD = {

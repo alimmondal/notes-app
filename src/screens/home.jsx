@@ -3,7 +3,6 @@ import {
   FlatList,
   Pressable,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -21,7 +20,6 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-// import { AntDesign } from '@expo/vector-icons';
 
 const Home = ({ user, navigation }) => {
   const [notes, setNotes] = React.useState([]);
@@ -106,12 +104,12 @@ const Home = ({ user, navigation }) => {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          padding: 30,
+          padding: 25,
         }}
       >
-        <Text>My Notes</Text>
+        <Text style={{ fontSize: 24 }}>My Notes</Text>
         <Pressable onPress={onPressCreate}>
-          <AntDesign name="pluscircleo" size={24} color="black" />
+          <AntDesign name="pluscircleo" size={30} color="black" />
         </Pressable>
       </View>
       <FlatList
@@ -122,7 +120,7 @@ const Home = ({ user, navigation }) => {
       />
 
       <Button
-        title="logout"
+        title="Logout"
         customStyles={{ alignSelf: 'center', marginVertical: 12 }}
         onPress={logout}
       />

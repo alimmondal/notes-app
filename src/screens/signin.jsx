@@ -46,30 +46,6 @@ const Signin = ({ navigation }) => {
       });
   };
 
-  //google Login
-  // const googleLogin = () => {
-  //   var provider = new GoogleAuthProvider();
-
-  //   signInWithPopup(auth, provider)
-  //     .then((res) => {
-  //       const { displayName, photoURL, email } = res.user;
-  //       const signedInUser = {
-  //         isSignedIn: true,
-  //         name: displayName,
-  //         email: email,
-  //         photo: photoURL,
-  //       };
-  //       setUser(signedInUser);
-  //       setLoggedInUser(signedInUser);
-  //       history.replace(from);
-  //       console.log(displayName, photoURL, email);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       console.log(err.message);
-  //     });
-  // };
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Image

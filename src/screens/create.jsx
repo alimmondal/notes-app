@@ -51,7 +51,7 @@ const Create = ({ navigation, route, user }) => {
         }}
       >
         <AntDesign name="pluscircleo" size={100} color="lightgray" />
-        <Text>Create</Text>
+        <Text style={{ color: 'gray', fontWeight: 'bold' }}>Create</Text>
       </View>
       <View>
         <Input placeholder="Title" onChangeText={(text) => setTitle(text)} />
